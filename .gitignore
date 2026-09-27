@@ -1,0 +1,22 @@
+# 本地登录凭证（含 wt2 / cookies，勿提交）
+data/session.json
+data/*.json
+!data/.gitkeep
+
+# 虚拟环境与缓存
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# 环境变量与系统文件
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.idea/
+.vscode/

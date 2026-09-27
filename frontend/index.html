@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boss 打招呼</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <h1>Boss 打招呼</h1>
+          <p class="sub">微信扫码登录 · 本地批量招呼</p>
+        </div>
+      </div>
+      <div id="status" class="status status-unknown">检测中…</div>
+    </header>
+
+    <section class="panel login-panel" id="loginPanel">
+      <div class="panel-head">
+        <h2>登录</h2>
+        <div id="authInfo" class="auth-chip muted">未登录</div>
+      </div>
+
+      <div class="qr-login" id="qrLogin">
+        <div class="qr-visual">
+          <div class="qr-box" id="qrBox">
+            <img id="qrImage" class="qr-image" alt="登录二维码" hidden />
+            <div id="qrPlaceholder" class="qr-placeholder">
+              <span class="qr-placeholder-icon" aria-hidden="true"></span>
+              <span>点击右侧获取二维码</span>
+            </div>
+            <div id="qrSuccess" class="qr-success" hidden>
+              <span class="qr-success-check" aria-hidden="true"></span>
+              <span>登录成功</span>
+            </div>
+          </div>
+          <ol class="qr-steps" id="qrSteps" aria-label="扫码进度">
+            <li data-step="idle" class="is-active">待扫码</li>
+            <li data-step="waiting">扫码中</li>
+            <li data-step="done">已登录</li>
+          </ol>
+        </div>
+        <div class="qr-side">
+          <p class="qr-lead">请使用微信扫描小程序码，在手机上确认登录。凭证保存在本机。</p>
+          <p id="qrStatus" class="qr-status muted">尚未获取二维码</p>
+          <div class="actions">
+            <button id="btnQrStart" type="button" class="btn primary">获取二维码</button>
+            <button id="btnQrRefresh" type="button" class="btn ghost" disabled>刷新</button>
+            <button id="btnLogout" type="button" class="btn ghost">退出本地登录</button>
+          </div>
+          <p class="hint">搜索与打招呼需本机小程序通道可用，且微信中 BOSS 小程序已登录。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>搜索与筛选</h2>
+      </div>
+      <p class="hint">在线 / 最近活跃为客户端筛选（会拉职位详情补全活跃时间）</p>
+      <div class="form-grid">
+        <label>
+          <span>关键字</span>
+          <input id="query" type="text" placeholder="例如：Java" value="" />
+        </label>
+        <label class="check">
+          <input id="requireOnline" type="checkbox" />
+          <span>仅当前在线 Boss</span>
+        </label>
+        <label>
+          <span>最近活跃</span>
+          <select id="activeDays">
+            <option value="">不限</option>
+            <option value="1">今日（1天内）</option>
+            <option value="3">3天内</option>
+            <option value="7">7天内</option>
+          </select>
+        </label>
+        <label>
+          <span>打招呼数量</span>
+          <input id="count" type="number" min="1" max="200" value="10" />
+        </label>
+        <label>
+          <span>间隔下限（秒）</span>
+          <input id="intervalMin" type="number" min="1" step="0.5" value="8" />
+        </label>
+        <label>
+          <span>间隔上限（秒）</span>
+          <input id="intervalMax" type="number" min="1" step="0.5" value="15" />
+        </label>
+      </div>
+      <div class="actions">
+        <button id="btnSearch" type="button" class="btn ghost">搜索预览</button>
+        <button id="btnStart" type="button" class="btn primary">开始打招呼</button>
+        <button id="btnStop" type="button" class="btn danger" disabled>停止</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>职位预览 <span id="jobCount" class="muted"></span></h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>职位</th>
+              <th>公司</th>
+              <th>Boss</th>
+              <th>薪资</th>
+              <th>在线</th>
+              <th>活跃</th>
+              <th>已沟通</th>
+            </tr>
+          </thead>
+          <tbody id="jobBody">
+            <tr><td colspan="7" class="empty">先搜索预览</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>运行日志</h2>
+      </div>
+      <div id="log" class="log" aria-live="polite"></div>
+    </section>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
